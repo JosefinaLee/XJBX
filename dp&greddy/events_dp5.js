@@ -26,22 +26,28 @@ const activities = [
 
 maxCompatibleSet(activities)
 
-function maxCompatibleSet(activities) {
-    let maxSetNum = []
-    let trace = []
+function isCompatible(a, b) {
+    return activities[a][1] < activities[b][0]
+}
 
+
+function maxCompatibleSet(activities) {
+
+    let maxSetNum = []
     const n = activities.length
 
     for (let i = 0; i < n; i++) {
         maxSetNum[i] = 1;
 
         for (let j = 0; j <= i; j++) {
-            if (activities[j][1] < activities[i][0] && maxSetNum[i] <= maxSetNum[j]) {
-                maxSetNum[i] = maxSetNum[j] + 1;
-                trace[i] = j;
+
+            if (isCompatible(j, i)) {
+                if (maxSetNum[i] <= maxSetNum[j]) {
+                    maxSetNum[i] = maxSetNum[j] + 1;
+                }
             }
         }
     }
-    // console.log(maxSetNum)
-    return maxSetNum
+
+    return maxSetNum[n - 1]
 }
